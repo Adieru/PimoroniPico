@@ -1,0 +1,237 @@
+:root {
+  --pad-gap: clamp(8px, 3.2vw, 16px);
+}
+
+body {
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  color: var(--vscode-foreground);
+  background: var(--vscode-editor-background);
+  margin: 0;
+  padding: 12px 16px 24px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#app {
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.mono, code {
+  font-family: var(--vscode-editor-font-family, monospace);
+}
+
+/* ------------------------------------------------------------ toolbar */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+button {
+  font: inherit;
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 3px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { background: var(--vscode-button-hoverBackground); }
+button:disabled { opacity: 0.45; cursor: default; }
+button#stop {
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+}
+button#stop:hover:not(:disabled) { background: var(--vscode-button-secondaryHoverBackground); }
+
+.status {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.9em;
+  border: 1px solid var(--vscode-widget-border, rgba(128,128,128,.4));
+}
+.status::before {
+  content: "";
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  background: #888;
+  vertical-align: 0;
+}
+.status.running::before { background: #3fb950; box-shadow: 0 0 6px #3fb950; }
+.status.starting::before { background: #d29922; }
+.status.error::before { background: #f85149; }
+.status.finished::before { background: #58a6ff; }
+
+.file {
+  margin-top: 6px;
+  min-height: 1.3em;
+  opacity: 0.75;
+  font-size: 0.9em;
+}
+
+.errbox {
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  color: var(--vscode-inputValidation-errorForeground, var(--vscode-foreground));
+  background: var(--vscode-inputValidation-errorBackground, rgba(248,81,73,.15));
+  border: 1px solid var(--vscode-inputValidation-errorBorder, #f85149);
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 0.9em;
+  white-space: pre-wrap;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ------------------------------------------------------------ device */
+
+.device {
+  margin: 14px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The Pico sits behind the base; only its top edge (USB end) shows. */
+.pico {
+  position: relative;
+  width: 36%;
+  height: 46px;
+  background: linear-gradient(#1f7a3d, #186632);
+  border-radius: 6px 6px 0 0;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.25);
+}
+.usb {
+  position: absolute;
+  top: -9px; left: 50%;
+  transform: translateX(-50%);
+  width: 30px; height: 14px;
+  background: linear-gradient(#d7d7d7, #9a9a9a);
+  border-radius: 2px;
+}
+.chip {
+  position: absolute;
+  left: 50%; top: 18px;
+  transform: translateX(-50%);
+  padding: 2px 6px;
+  font-size: 9px;
+  letter-spacing: .5px;
+  color: #bbb;
+  background: #222;
+  border-radius: 2px;
+}
+.picoled {
+  position: absolute;
+  left: 12px; top: 10px;
+  width: 9px; height: 6px;
+  background: #b9c3b0;
+  border-radius: 1px;
+}
+.picoled.on {
+  background: #6dff6d;
+  box-shadow: 0 0 6px 2px #39ff39;
+}
+.pico-label {
+  position: absolute;
+  right: 6px; bottom: 3px;
+  font-size: 7px;
+  color: rgba(255,255,255,.6);
+}
+
+.base {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 7% 7% 4%;
+  background: linear-gradient(160deg, #262626, #111);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.06);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--pad-gap);
+  touch-action: none;
+  outline: none;
+}
+.grid:focus-visible { box-shadow: 0 0 0 2px var(--vscode-focusBorder); border-radius: 6px; }
+
+.pad {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: 12%;
+  cursor: pointer;
+  background: radial-gradient(circle at 50% 38%, #eef1f2 0%, #c8ced2 75%, #b3babe 100%);
+  box-shadow:
+    inset 0 -3px 0 rgba(0,0,0,.18),
+    inset 0 2px 2px rgba(255,255,255,.6),
+    0 2px 0 #000;
+  transition: transform 60ms ease-out, box-shadow 60ms ease-out;
+  touch-action: none;
+}
+.pad.lit {
+  background: radial-gradient(circle at 50% 45%, var(--core) 0%, var(--c) 55%, var(--edge) 100%);
+  box-shadow:
+    inset 0 -3px 0 rgba(0,0,0,.18),
+    inset 0 2px 2px rgba(255,255,255,.35),
+    0 2px 0 #000,
+    0 0 var(--glow) var(--c);
+}
+.pad.pressed {
+  transform: translateY(2px) scale(.95);
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,.45),
+    0 0 0 #000,
+    0 0 var(--glow, 0) var(--c, transparent);
+}
+.pad.latched::after {
+  content: "";
+  position: absolute;
+  right: 9%; bottom: 9%;
+  width: 14%; height: 14%;
+  border-radius: 50%;
+  background: #ffb000;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.5);
+}
+
+.num {
+  position: absolute;
+  left: 9%; top: 6%;
+  font-size: clamp(9px, 2.6vw, 13px);
+  font-family: var(--vscode-editor-font-family, monospace);
+  color: rgba(0,0,0,.45);
+  pointer-events: none;
+}
+.pad.lit .num { color: var(--numc); }
+
+.brand {
+  margin-top: 5%;
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,.35);
+}
+
+/* ------------------------------------------------------------ readout */
+
+.readout, .brightness {
+  margin-top: 12px;
+  text-align: center;
+}
+.brightness { margin-top: 2px; opacity: .7; font-size: .9em; }
+#mask-bin .one { color: var(--vscode-charts-green, #3fb950); font-weight: bold; }
+
+.help {
+  margin-top: 16px;
+  font-size: .92em;
+  opacity: .9;
+}
+.help summary { cursor: pointer; }
+.help ul { padding-left: 18px; }
+.help li { margin: 4px 0; }
