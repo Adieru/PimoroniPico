@@ -96,10 +96,7 @@ while True:
                 time.sleep(0.1)
 
             print(light_key.x, light_key.y)
-
     '''
-
-    SetX(RED, BLUE)
 
 
 
