@@ -17,8 +17,20 @@ colours = [RED, GREEN, BLUE, YELLOW, PURPLE, WHITE]
 
 colour_index = 0
 
+#Keys index
+PadKeys = []
+for i in range(4):
+    for j in range(4):
+
+        PadKeys.append(keypad[i, j])
+
 
 #Start function
+def StartGame(): #Note only use it when you have 
+    if(PadKeys[5].is_pressed() or PadKeys[6].is_pressed() or PadKeys[9].is_pressed() or PadKeys[10].is_pressed()):
+        return True
+
+    return False
 
 #Set the colours to 'X'
 def SetX(ColorOne, ColorTwo):
@@ -39,7 +51,7 @@ def SetX(ColorOne, ColorTwo):
     keypad[3, 1].color = ColorTwo
     keypad[3, 2].color = ColorTwo
 
-    keypad[1, 0].color = ColorTwo  
+    keypad[1, 0].color = ColorTwo   
     keypad[2, 0].color = ColorTwo
     keypad[1, 3].color = ColorTwo
     keypad[2, 3].color = ColorTwo
@@ -98,8 +110,6 @@ while True:
             print(light_key.x, light_key.y)
     '''
 
-
-    SetX(RED, BLUE)
 
 
     time.sleep(0.1)
