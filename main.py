@@ -36,10 +36,10 @@ def SetX(ColorOne, ColorTwo):
     #The background
     keypad[0, 1].color = ColorTwo
     keypad[0, 2].color = ColorTwo
-    keypad[1, 3].color = ColorTwo
-    keypad[2, 3].color = ColorTwo
+    keypad[3, 1].color = ColorTwo
+    keypad[3, 2].color = ColorTwo
 
-    keypad[1, 0].color = ColorTwo 
+    keypad[1, 0].color = ColorTwo  
     keypad[2, 0].color = ColorTwo
     keypad[1, 3].color = ColorTwo
     keypad[2, 3].color = ColorTwo
@@ -99,7 +99,7 @@ while True:
     '''
 
 
-
+    SetX(RED, BLUE)
 
 
     time.sleep(0.1)
