@@ -24,9 +24,15 @@ for i in range(4):
 
         PadKeys.append(keypad[i, j])
 
+def CheckClick():
+    for keys in PadKeys:
+        if(keys.is_pressed()):
+            return True
 
+    return False
+   
 #Start function
-def StartGame(): #Note only use it when you have 
+def StartGame(): #Note only use it with the CheckClick function
     if(PadKeys[5].is_pressed() or PadKeys[6].is_pressed() or PadKeys[9].is_pressed() or PadKeys[10].is_pressed()):
         return True
 
