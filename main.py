@@ -17,8 +17,39 @@ colours = [RED, GREEN, BLUE, YELLOW, PURPLE, WHITE]
 
 colour_index = 0
 
+
+#Start function
+
+#Set the colours to 'X'
+def SetX(ColorOne, ColorTwo):
+    #The 'X'
+    keypad[0, 0].color = ColorOne
+    keypad[1, 1].color = ColorOne
+    keypad[2, 2].color = ColorOne
+    keypad[3, 3].color = ColorOne
+
+    keypad[0, 3].color = ColorOne
+    keypad[1, 2].color = ColorOne
+    keypad[2, 1].color = ColorOne
+    keypad[3, 0].color = ColorOne
+
+    #The background
+    keypad[0, 1].color = ColorTwo
+    keypad[0, 2].color = ColorTwo
+    keypad[1, 3].color = ColorTwo
+    keypad[2, 3].color = ColorTwo
+
+    keypad[1, 0].color = ColorTwo 
+    keypad[2, 0].color = ColorTwo
+    keypad[1, 3].color = ColorTwo
+    keypad[2, 3].color = ColorTwo
+
+
+
 # turn a key blue when pressed
 while True:
+
+    '''
     for key in keypad.keys:
         if key.is_pressed():
 
@@ -66,4 +97,13 @@ while True:
 
             print(light_key.x, light_key.y)
 
+    '''
+
+    SetX(RED, BLUE)
+
+
+
+
+
     time.sleep(0.1)
+    
