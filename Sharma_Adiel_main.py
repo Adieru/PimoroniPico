@@ -1,3 +1,4 @@
+from token import STAR
 from rgbkeypad import RGBKeypad
 import time
 
@@ -24,12 +25,24 @@ for i in range(4):
 
         PadKeys.append(keypad[i, j])
 
+#If a key is pressed
 def CheckClick():
-    for keys in PadKeys:
-        if(keys.is_pressed()):
+    for key in PadKeys:
+        if(key.is_pressed()):
             return True
 
     return False
+
+#Finds which key is pressed:
+def GetPressedKey():
+    keyIndex = 00
+
+    for key in PadKeys:
+        if(key.is_pressed()):
+            keyIndex = key
+
+            return keyIndex
+    return
    
 #Start function
 def StartGame(): #Note only use it with the CheckClick function
@@ -37,6 +50,22 @@ def StartGame(): #Note only use it with the CheckClick function
         return True
 
     return False
+
+#Checks if the player has clicked in the correct slot
+InRange = []
+for i in range(1, 5):
+    for j in range(1, 5):
+        if(i != 4 and j != 4):
+            InRange.append(keypad[i - 1, j - 1])
+
+#Checks if pressed key is within the range
+def CheckRange(StartStatus, ClickStatus):
+
+    if(StartStatus and ClickStatus):
+        if(PadKeys[GetPressedKey()] in InRange):
+            return True
+
+    return False   
 
 #Set the colours to 'X'
 def SetX(ColorOne, ColorTwo):
@@ -62,61 +91,31 @@ def SetX(ColorOne, ColorTwo):
     keypad[1, 3].color = ColorTwo
     keypad[2, 3].color = ColorTwo
 
+#Clears the board:
+def ClearBoard():
+    for i in range(4):
+        for j in range(4):
 
+            keypad[i, j].color = CLEAR
 
-# turn a key blue when pressed
-while True:
+def Main():
+    GameLoop = True
+    #The main loop for the game
+    while GameLoop:
 
-    '''
-    for key in keypad.keys:
-        if key.is_pressed():
+        #Starts the game:
+        if(StartGame()):
 
-            colour_index = (colour_index + 1) % 5
-            next_colour = colours[(colour_index + 1) % 7]
-            key.color = next_colour
+            time.sleep(0.2)
+            SetX(PURPLE, GREEN)
 
-            for i in range(0, 4):
-                if key.x + i < 4:
-                    light_key = keypad[(key.x + i), key.y]
-                    light_key.color = next_colour
-
-                if key.x - i > -1:
-                    light_key = keypad[(key.x - i), key.y]
-                    light_key.color = next_colour
-
-                if key.y + i < 4:
-                    light_key = keypad[key.x, (key.y+i)]
-                    light_key.color = next_colour
-
-                if key.y + i > -1:
-                    light_key = keypad[key.x, (key.y-i)]
-                    light_key.color = next_colour
-
-                time.sleep(0.1)
-
-            for i in range(0, 4):
-                if key.x + i < 4:
-                    light_key = keypad[(key.x + i), key.y]
-                    light_key.color = CLEAR
-
-                if key.x - i > -1:
-                    light_key = keypad[(key.x - i), key.y]
-                    light_key.color = CLEAR
-
-                if key.y + i < 4:
-                    light_key = keypad[key.x, (key.y+i)]
-                    light_key.color = CLEAR
-
-                if key.y + i > -1:
-                    light_key = keypad[key.x, (key.y-i)]
-                    light_key.color = CLEAR
-
-                time.sleep(0.1)
-
-            print(light_key.x, light_key.y)
-    '''
+            time.sleep(1)
+            ClearBoard()
 
 
 
-    time.sleep(0.1)
-    
+
+
+
+Main()
+
