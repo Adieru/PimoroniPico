@@ -1,4 +1,6 @@
+from ast import Break
 from token import STAR
+from tracemalloc import start
 from rgbkeypad import RGBKeypad
 import time
 
@@ -27,13 +29,19 @@ for i in range(4):
 
 #If a key is pressed
 def CheckClick():
+
+    Clicked = (0, False)
+
     for key in PadKeys:
         if(key.is_pressed()):
-            return True
+            Clicked = (key, True)
 
-    return False
+            return Clicked
+
+    return Clicked
 
 #Finds which key is pressed:
+'''
 def GetPressedKey():
     keyIndex = 00
 
@@ -43,6 +51,7 @@ def GetPressedKey():
 
             return keyIndex
     return
+'''
    
 #Start function
 def StartGame(): #Note only use it with the CheckClick function
@@ -52,17 +61,18 @@ def StartGame(): #Note only use it with the CheckClick function
     return False
 
 #Checks if the player has clicked in the correct slot
-InRange = []
-for i in range(1, 5):
-    for j in range(1, 5):
-        if(i != 4 and j != 4):
-            InRange.append(keypad[i - 1, j - 1])
+Range = []
+for i in range(1, 13):
+    if(i % 4 != 0):
+        Range.append(i - 1)
 
 #Checks if pressed key is within the range
-def CheckRange(StartStatus, ClickStatus):
+def CheckRange(StartStatus):
 
-    if(StartStatus and ClickStatus):
-        if(PadKeys[GetPressedKey()] in InRange):
+    Clicked_Key = CheckClick()[0]
+
+    if(StartStatus):
+        if(Clicked_Key in Range):
             return True
 
     return False   
@@ -93,29 +103,34 @@ def SetX(ColorOne, ColorTwo):
 
 #Clears the board:
 def ClearBoard():
-    for i in range(4):
-        for j in range(4):
-
-            keypad[i, j].color = CLEAR
+    keypad.color = CLEAR
 
 def Main():
     GameLoop = True
+    Start = False
+
     #The main loop for the game
-    while GameLoop:
+    while True:
 
-        #Starts the game:
-        if(StartGame()):
+        
+        for x in range(0,4):
+            for y in range(0, 4):
 
-            time.sleep(0.2)
-            SetX(PURPLE, GREEN)
+                if(keypad[x, y].is_pressed()):
+                    if(Start != True and StartGame()):
 
-            time.sleep(1)
-            ClearBoard()
+                        Start = True
+                        SetX(PURPLE, GREEN)
+                        time.sleep(1)
+                        ClearBoard()
+
+                    elif(Start and CheckClick()):
+                        SetX(YELLOW, RED)
+                        time.sleep(1)
+                        ClearBoard()
 
 
-
-
-
+       
 
 Main()
 
