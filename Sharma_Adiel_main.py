@@ -30,15 +30,15 @@ for i in range(4):
 #If a key is pressed
 def CheckClick():
 
-    Clicked = (0, False)
+    Clicked = 0
 
-    for key in PadKeys:
-        if(key.is_pressed()):
-            Clicked = (key, True)
+    for i in range(len(PadKeys) - 1):
+        if(PadKeys[i].is_pressed()):
+            Clicked = i
 
             return Clicked
 
-    return Clicked
+    return 
 
 #Finds which key is pressed:
 '''
@@ -67,17 +67,18 @@ for i in range(1, 13):
         Range.append(i - 1)
 
 #Checks if pressed key is within the range
-def CheckRange(StartStatus):
+def CheckRange():
+    Clicked_Key = CheckClick()
 
-    Clicked_Key = CheckClick()[0]
+    if(Clicked_Key in Range):
+       #print("In Range")
+       return True
 
-    if(StartStatus):
-        if(Clicked_Key in Range):
-            return True
+    #print("Not Range")
 
     return False   
 
-#Set the colours to 'X'
+#Set the board to 'X'
 def SetX(ColorOne, ColorTwo):
     #The 'X'
     keypad[0, 0].color = ColorOne
@@ -105,32 +106,54 @@ def SetX(ColorOne, ColorTwo):
 def ClearBoard():
     keypad.color = CLEAR
 
+#Set Color, for press
+def SetColor(IsPlayerOne):
+    if(IsPlayerOne):
+        IsPlayerOne = False
+
+
+
+
+    else:
+        IsPlayerOne = True
+
 def Main():
     GameLoop = True
     Start = False
+    PlayerOneStatus = False
 
     #The main loop for the game
     while True:
 
         
-        for x in range(0,4):
-            for y in range(0, 4):
+        for i in range(0,16):
 
-                if(keypad[x, y].is_pressed()):
+                if(PadKeys[i].is_pressed()):
+                    if(Start == True and CheckRangeRan == True) : CheckRangeRan = False
+
                     if(Start != True and StartGame()):
-
+                        CheckRangeRan = False
                         Start = True
+                        PlayerOneStatus = True
                         SetX(PURPLE, GREEN)
                         time.sleep(1)
                         ClearBoard()
 
-                    elif(Start and CheckClick()):
+                    elif(CheckRangeRan == False and CheckRange() != True):
+                        CheckRangeRan = True
+                        Start = False
                         SetX(YELLOW, RED)
-                        time.sleep(1)
+                        time.sleep(3)
                         ClearBoard()
 
 
-       
+                    elif(CheckRangeRan == False and CheckRange()):
+                        CheckRangeRan = True
+
+                        #Game Logic here
+                        SetColor(PlayerOneStatus)
+
+                               
 
 Main()
 
